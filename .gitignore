@@ -16,6 +16,7 @@ dist-ssr
 playwright-report/
 test-results/
 .agent/
+antigravity-kit/
 *.txt
 security_report.json
 security_report_utf8.json
