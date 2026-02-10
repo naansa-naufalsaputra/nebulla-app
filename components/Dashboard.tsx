@@ -21,6 +21,18 @@ const Dashboard: React.FC<DashboardProps> = ({
     onViewTemplates,
     onImportPDF
 }) => {
+    const [isCreating, setIsCreating] = React.useState(false);
+
+    const handleCreateNote = async () => {
+        if (isCreating) return;
+        setIsCreating(true);
+        try {
+            await onCreateNote();
+        } finally {
+            setIsCreating(false);
+        }
+    };
+
     const getGreeting = () => {
         const hour = new Date().getHours();
         if (hour < 12) return "Good Morning";
@@ -65,7 +77,11 @@ const Dashboard: React.FC<DashboardProps> = ({
 
                 {/* Quick Action Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full mt-4">
-                    <button onClick={onCreateNote} className="flex flex-col items-center text-center p-8 gap-5 bg-surface-light dark:bg-surface-dark/50 dark:backdrop-blur-xl rounded-[28px] shadow-soft hover:shadow-float hover:-translate-y-1 transition-all group aspect-square justify-center border border-gray-200 dark:border-white/10 hover:border-primary/20 hover:dark:border-primary/30">
+                    <button
+                        onClick={handleCreateNote}
+                        disabled={isCreating}
+                        className={`flex flex-col items-center text-center p-8 gap-5 bg-surface-light dark:bg-surface-dark/50 dark:backdrop-blur-xl rounded-[28px] shadow-soft hover:shadow-float hover:-translate-y-1 transition-all group aspect-square justify-center border border-gray-200 dark:border-white/10 hover:border-primary/20 hover:dark:border-primary/30 ${isCreating ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
                         <div className="size-20 rounded-3xl bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform duration-300">
                             <span className="material-symbols-outlined text-[40px]">add</span>
                         </div>

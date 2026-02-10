@@ -148,7 +148,7 @@ export const MainContentRouter: React.FC<MainContentRouterProps> = ({
                             {n.title || 'Untitled'}
                         </h3>
                         <p className="text-sm text-text-secondary line-clamp-3">
-                            {n.content?.replace(/<[^>]*>?/gm, '') || 'No preview'}
+                            {(typeof n.content === 'string' ? n.content : '').replace(/<[^>]*>?/gm, '') || 'No preview'}
                         </p>
                     </div>
                 ))}

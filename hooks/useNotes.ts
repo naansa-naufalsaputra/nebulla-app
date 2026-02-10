@@ -162,7 +162,7 @@ export const useNotes = (session: any) => {
         const now = new Date().toISOString();
         const newNoteData: Note = {
             id: '',
-            title: 'Untitled Note',
+            title: overrideData?.title ?? '',
             blocks: [{ id: Date.now().toString(), type: 'text', content: '' }],
             isFavorite: false,
             isTrashed: false,
@@ -192,13 +192,22 @@ export const useNotes = (session: any) => {
         // Optimistic update
         setNotes(prev => prev.map(n => n.id === note.id ? note : n));
 
+        // CRITICAL OPTIMIZATION:
+        // If this is the currently active note, we ONLY update state.
+        // The useEffect hook (auto-save) will handle the API call.
+        // This prevents double-saving (once on keypress, once on debounce).
+        if (note.id === activeNoteIdRef.current) {
+            setSaveStatus('saving'); // UI feedback
+            return;
+        }
+
         try {
             await notesService.updateNote(note);
             setSaveStatus('saved');
         } catch (err) {
             console.error("Failed to update note:", err);
             setSaveStatus('error');
-            // Revert? For now we just verify error state
+            // Revert logic could go here
         }
     };
 
