@@ -29,28 +29,34 @@ export const DrawingComponent = (props: any) => {
         editor.updateInstanceState({ isReadonly: isReadOnly })
     }, [editor, isReadOnly])
 
-    // Persistence listener
+    // Persistence listener with DEBOUNCE
     useEffect(() => {
         if (!editor) return
 
-        const handleChange = () => {
-            const snapshot = getSnapshot(editor.store)
-            const jsonString = JSON.stringify(snapshot)
+        let timeoutId: NodeJS.Timeout
 
-            if (props.node.attrs.lines !== jsonString) {
-                props.updateAttributes({
-                    lines: jsonString,
-                })
-            }
+        const handleChange = () => {
+            clearTimeout(timeoutId)
+            timeoutId = setTimeout(() => {
+                const snapshot = getSnapshot(editor.store)
+                const jsonString = JSON.stringify(snapshot)
+
+                if (props.node.attrs.lines !== jsonString) {
+                    props.updateAttributes({
+                        lines: jsonString,
+                    })
+                }
+            }, 500) // Debounce 500ms
         }
 
-        const cleanup = editor.store.listen(
+        const cleanupListener = editor.store.listen(
             handleChange,
             { scope: 'document', source: 'user' }
         )
 
         return () => {
-            cleanup()
+            cleanupListener()
+            clearTimeout(timeoutId)
         }
     }, [editor, props.updateAttributes])
 
