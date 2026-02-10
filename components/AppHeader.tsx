@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SearchFilters from './SearchFilters';
 import { Note } from '../types';
 import { FilterState } from './SearchFilters';
 import { PageStyleMenu } from './editor/PageStyleMenu';
-
-interface UserProfile {
-    full_name?: string;
-    avatar_url?: string;
-}
+import { supabase } from '../lib/supabaseClient';
+import { Ghost } from 'lucide-react';
 
 interface AppHeaderProps {
     // Search
@@ -39,9 +36,6 @@ interface AppHeaderProps {
     isSmallText: boolean;
     setIsSmallText: (value: boolean) => void;
     onNoteUpdate: (updates: Partial<Note>) => void;
-
-    // User
-    userProfile: UserProfile | null;
 }
 
 /**
@@ -70,10 +64,62 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     setIsFullWidth,
     isSmallText,
     setIsSmallText,
-    onNoteUpdate,
-    userProfile
+    onNoteUpdate
 }) => {
     const [isPageStyleMenuOpen, setIsPageStyleMenuOpen] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const [userName, setUserName] = useState('User');
+    const [userEmail, setUserEmail] = useState('');
+    const [userRole, setUserRole] = useState<'Owner' | 'Member' | 'Guest'>('Guest');
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Fetch user data
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const isOwner = user.email === 'naufalnamikaze175@gmail.com';
+                const isGuest = !user || user.is_anonymous;
+                const role = isOwner ? 'Owner' : (isGuest ? 'Guest' : 'Member');
+
+                const displayName = user.user_metadata?.full_name
+                    || user.email?.split('@')[0]
+                    || 'User';
+
+                setUserName(displayName);
+                setUserEmail(user.email || '');
+                setUserRole(role);
+                setAvatarUrl(user.user_metadata?.avatar_url || null);
+            } else {
+                setUserName('Guest User');
+                setUserEmail('');
+                setUserRole('Guest');
+                setAvatarUrl(null);
+            }
+        };
+        fetchUser();
+    }, []);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsUserMenuOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    // Helper function to get initials
+    const getInitials = (name: string): string => {
+        const parts = name.split(' ').filter(p => p.length > 0);
+        if (parts.length > 1) {
+            return (parts[0][0] + parts[1][0]).toUpperCase();
+        }
+        return name.substring(0, 2).toUpperCase();
+    };
 
     return (
         <header className="flex items-center justify-between border-b border-border-color dark:border-white/10 bg-surface-light dark:bg-void/30 dark:backdrop-blur-md px-4 py-3 z-20 transition-colors duration-300">
@@ -202,23 +248,68 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                     <span className="material-symbols-outlined">settings</span>
                 </button>
 
-                {/* User Avatar / Sign Out */}
-                <button
-                    onClick={onSignOut}
-                    className="size-8 rounded-full bg-primary flex items-center justify-center text-white font-bold hover:opacity-90 transition-opacity"
-                    aria-label="Sign out"
-                    title="Profile & Sign Out"
-                >
-                    {userProfile?.avatar_url ? (
-                        <img
-                            src={userProfile.avatar_url}
-                            alt="User avatar"
-                            className="size-8 rounded-full object-cover"
-                        />
-                    ) : (
-                        'A'
+                {/* User Avatar with Dropdown */}
+                <div className="relative" ref={dropdownRef}>
+                    <button
+                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                        className="size-8 rounded-full bg-gradient-to-br from-neon-pink to-purple-600 flex items-center justify-center text-white font-bold hover:opacity-90 transition-opacity overflow-hidden"
+                        aria-label="User menu"
+                        title="Profile & Settings"
+                    >
+                        {avatarUrl ? (
+                            <img
+                                src={avatarUrl}
+                                alt="User avatar"
+                                className="size-8 rounded-full object-cover"
+                            />
+                        ) : userRole === 'Guest' ? (
+                            <Ghost size={18} className="text-gray-300" />
+                        ) : (
+                            <span className="text-sm font-bold">{getInitials(userName)}</span>
+                        )}
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {isUserMenuOpen && (
+                        <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden z-50">
+                            {/* Header with Name & Email */}
+                            <div className="px-3 py-2.5 border-b border-gray-200 dark:border-gray-700">
+                                <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                                    {userName}
+                                </p>
+                                {userEmail && (
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">
+                                        {userEmail}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* Menu Items */}
+                            <div className="py-1">
+                                <button
+                                    onClick={() => {
+                                        setIsUserMenuOpen(false);
+                                        onOpenSettings();
+                                    }}
+                                    className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">settings</span>
+                                    Settings
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setIsUserMenuOpen(false);
+                                        onSignOut();
+                                    }}
+                                    className="w-full px-3 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">logout</span>
+                                    Sign Out
+                                </button>
+                            </div>
+                        </div>
                     )}
-                </button>
+                </div>
             </div>
         </header>
     );

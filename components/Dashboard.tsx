@@ -8,6 +8,7 @@ interface DashboardProps {
     onViewFavorites: () => void;
     onViewRecent: () => void;
     onViewTemplates: () => void;
+    onImportPDF: () => void;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({
@@ -17,7 +18,8 @@ const Dashboard: React.FC<DashboardProps> = ({
     onCreateNote,
     onViewFavorites,
     onViewRecent,
-    onViewTemplates
+    onViewTemplates,
+    onImportPDF
 }) => {
     const getGreeting = () => {
         const hour = new Date().getHours();
@@ -100,6 +102,16 @@ const Dashboard: React.FC<DashboardProps> = ({
                         <div className="space-y-1">
                             <span className="block font-bold text-text-main dark:text-white text-xl">Templates</span>
                             <span className="block text-sm text-text-secondary dark:text-gray-400">Start faster</span>
+                        </div>
+                    </button>
+
+                    <button onClick={onImportPDF} className="flex flex-col items-center text-center p-8 gap-5 bg-surface-light dark:bg-surface-dark/50 dark:backdrop-blur-xl rounded-[28px] shadow-soft hover:shadow-float hover:-translate-y-1 transition-all group aspect-square justify-center border border-gray-200 dark:border-white/10 hover:border-red-500/20 hover:dark:border-red-500/30">
+                        <div className="size-20 rounded-3xl bg-red-100 dark:bg-red-900/30 text-red-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <span className="material-symbols-outlined text-[40px]">upload_file</span>
+                        </div>
+                        <div className="space-y-1">
+                            <span className="block font-bold text-text-main dark:text-white text-xl">Import PDF</span>
+                            <span className="block text-sm text-text-secondary dark:text-gray-400">Upload document</span>
                         </div>
                     </button>
                 </div>

@@ -34,6 +34,7 @@ interface MainContentRouterProps {
     onViewFavorites: () => void;
     onViewRecent: () => void;
     onViewTemplates: () => void;
+    onImportPDF: () => void;
 
     // Page Style (Notion-style)
     fontStyle: 'sans' | 'serif' | 'mono';
@@ -65,6 +66,7 @@ export const MainContentRouter: React.FC<MainContentRouterProps> = ({
     onViewFavorites,
     onViewRecent,
     onViewTemplates,
+    onImportPDF,
     fontStyle,
     isFullWidth,
     isSmallText,
@@ -116,6 +118,7 @@ export const MainContentRouter: React.FC<MainContentRouterProps> = ({
                 onViewFavorites={onViewFavorites}
                 onViewRecent={onViewRecent}
                 onViewTemplates={onViewTemplates}
+                onImportPDF={onImportPDF}
             />
         );
     }

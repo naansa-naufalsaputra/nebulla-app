@@ -16,15 +16,36 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const [userName, setUserName] = useState('User');
   const [userEmail, setUserEmail] = useState('user@nebulla.app');
   const [userCreatedAt, setUserCreatedAt] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<'Owner' | 'Member' | 'Guest'>('Guest');
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   // Fetch user data from Supabase
   useEffect(() => {
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        setUserName(user.user_metadata?.full_name || 'User');
-        setUserEmail(user.email || 'user@nebulla.app');
+        // Role detection
+        const isOwner = user.email === 'naufalnamikaze175@gmail.com';
+        const isGuest = !user || user.is_anonymous;
+        const role = isOwner ? 'Owner' : (isGuest ? 'Guest' : 'Member');
+
+        // Display name logic
+        const displayName = user.user_metadata?.full_name
+          || user.email?.split('@')[0]
+          || 'User';
+
+        setUserName(displayName);
+        setUserEmail(user.email || '-');
         setUserCreatedAt(user.created_at || null);
+        setUserRole(role);
+        setAvatarUrl(user.user_metadata?.avatar_url || null);
+      } else {
+        // Guest user
+        setUserName('Guest User');
+        setUserEmail('-');
+        setUserCreatedAt(null);
+        setUserRole('Guest');
+        setAvatarUrl(null);
       }
     };
     if (isOpen) {
@@ -170,7 +191,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
                   {/* Avatar */}
                   <div className="size-20 rounded-full bg-gradient-to-tr from-primary to-pink-400 p-1 shadow-lg">
                     <div className={`w-full h-full ${settings.theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-full flex items-center justify-center overflow-hidden`}>
-                      <User size={40} className="text-primary" />
+                      {avatarUrl ? (
+                        <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                      ) : userRole === 'Guest' ? (
+                        <User size={40} className="text-gray-400" />
+                      ) : (
+                        <User size={40} className="text-primary" />
+                      )}
                     </div>
                   </div>
 
@@ -199,7 +226,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
                   </div>
                   <div className="flex justify-between">
                     <span className={colors.textSecondary}>Role</span>
-                    <span className="font-semibold text-primary">Owner</span>
+                    <span className={`font-semibold ${userRole === 'Owner' ? 'text-amber-500' :
+                        userRole === 'Member' ? 'text-blue-500' :
+                          'text-gray-400'
+                      }`}>{userRole}</span>
                   </div>
                 </div>
               </div>

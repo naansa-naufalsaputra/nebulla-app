@@ -240,7 +240,6 @@ const App: React.FC = () => {
                         updateNote({ ...activeNote, ...updates });
                     }
                 }}
-                userProfile={userProfile}
             />
 
             <main className="flex-1 flex flex-col relative bg-surface overflow-hidden">
@@ -264,6 +263,16 @@ const App: React.FC = () => {
                     onViewFavorites={() => setFilter('favorites')}
                     onViewRecent={() => setFilter('recent')}
                     onViewTemplates={() => setIsTemplateGalleryOpen(true)}
+                    onImportPDF={() => {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = '.pdf';
+                        input.onchange = (e) => {
+                            const file = (e.target as HTMLInputElement).files?.[0];
+                            if (file) handlers.handleImportNote(file);
+                        };
+                        input.click();
+                    }}
                     fontStyle={fontStyle}
                     isFullWidth={isFullWidth}
                     isSmallText={isSmallText}
