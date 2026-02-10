@@ -1,8 +1,0 @@
-{
-  "name": "Nebulla",
-  "description": "A hybrid AI workspace bridging handwriting and structured notes.",
-  "requestFramePermissions": [
-    "camera",
-    "microphone"
-  ]
-}

@@ -1,6 +1,0 @@
-﻿App.tsx(13,16): error TS6133: 'BlockStyle' is declared but its value is never read.
-App.tsx(42,21): error TS6133: 'moveNote' is declared but its value is never read.
-App.tsx(134,23): error TS2322: Type '{ id: string; type: string; content: string; style: { fontFamily: string; }; }[]' is not assignable to type 'NoteBlock[]'.
-  Type '{ id: string; type: string; content: string; style: { fontFamily: string; }; }' is not assignable to type 'NoteBlock'.
-    Types of property 'type' are incompatible.
-      Type 'string' is not assignable to type '"text" | "heading1" | "heading2" | "heading3" | "todo" | "latex" | "image" | "video_placeholder" | "bullet_list" | "numbered_list" | "code" | "table" | "ink-canvas" | "toggle" | "quote" | "callout" | "divider"'.
