@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    /* Default (Light) */
+    --bg-main: #f8fafc;
+    --bg-surface: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-col: #e2e8f0;
+    --primary: #1313ec;
+    --primary-hover: #0f0fbc;
+}
+
+.dark {
+    --bg-main: #1a1a2e;
+    --bg-surface: #16213e;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    /* High contrast border for visibility */
+    --border-col: #4b5563;
+    --primary: #60a5fa;
+    --primary-hover: #3b82f6;
+}
+
+/* Explicit high contrast border utility */
+.dark .border-contrast {
+    border-color: #4b5563 !important;
+}
+
+/* Nebula Deep Space Utilities */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.neon-text {
+    text-shadow: 0 0 10px rgba(238, 43, 140, 0.5);
+}
+
+.neon-border {
+    border-color: #ee2b8c !important;
+    box-shadow: 0 0 10px rgba(238, 43, 140, 0.3);
+}
+
+/* Force rebuild - deep blue-gray theme */
+
+.theme-sakura {
+    --bg-main: #FFF0F5;
+    /* Lavender Blush (Pink Muda Dominan) */
+    --bg-surface: #ffffff;
+    /* Putih untuk kartu agar kontras */
+    --text-main: #5c2b36;
+    /* Merah gelap/coklat */
+    --text-muted: #9d747c;
+    --primary: #ff7597;
+    /* Pink cerah */
+    --border-col: #fbcfe8;
+    /* Garis pink */
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Fix posisi toolbar editor agar tidak menempel di bawah layar */
+.bn-formatting-toolbar {
+    z-index: 50 !important;
+}
+
+/* Sembunyikan tombol Text/Draw yang mengganggu */
+.bn-side-menu[data-content="draw"] {
+    display: none !important;
+}
+
+@media print {
+    /* 1. Sembunyikan semua elemen UI yang mengganggu */
+    aside,
+    /* Sidebar */
+    button,
+    /* Semua tombol */
+    .fixed,
+    /* Menu melayang/Floating toolbar */
+    div[role="dialog"],
+    /* Modal Export yang sedang terbuka */
+    .no-print
+
+    /* Class manual untuk elemen lain */
+        {
+        display: none !important;
+    }
+
+    /* 2. Fokuskan hanya ke konten Editor */
+    body,
+    #root,
+    main {
+        background: white !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* Pastikan editor mengambil lebar penuh kertas */
+    .ProseMirror,
+    .editor-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        z-index: 9999 !important;
+        /* Pastikan di atas segalanya */
+    }
+}
+
+/* Fix Duplicate Placeholder */
+/* Hanya tampilkan placeholder di paragraf kosong PERTAMA */
+/* Placeholder HANYA untuk paragraf kosong PERTAMA */
+.ProseMirror>p.is-editor-empty:first-child::before {
+    content: "Type '/' for commands...";
+    color: #9ca3af;
+    /* Abu-abu */
+    float: left;
+    height: 0;
+    pointer-events: none;
+    font-style: italic;
+}
+
+/* Sembunyikan placeholder di paragraf lain (yang di bawah-bawah) */
+.ProseMirror p.is-empty:not(:first-child)::before {
+    content: none !important;
+    display: none;
+}
+
+/* ===== Toggle Block (Collapsible) Styling ===== */
+details summary {
+    list-style: none;
+}
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+details[open]>summary .chevron-icon {
+    transform: rotate(90deg);
+}
+
+/* ===== Checklist (To-Do List) Styling ===== */
+ul[data-type="taskList"] {
+    list-style: none;
+    padding: 0;
+}
+
+li[data-type="taskItem"] {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+input[type="checkbox"] {
+    margin-right: 0.5rem;
+    margin-top: 0.3rem;
+    accent-color: #3b82f6;
+    cursor: pointer;
+}
+
+/* ===== Block Selection Styling ===== */
+.block-selected {
+    outline: 2px solid #60a5fa;
+    background-color: rgba(191, 219, 254, 0.3);
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.dark .block-selected {
+    outline-color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.15);
+}
+
+/* Block container hover effect */
+.block-container:hover .drag-handle {
+    opacity: 1;
+}
+
+.drag-handle {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+/* Keyboard focus indicator for blocks */
+.block-focused {
+    box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.4);
+    border-radius: 4px;
+}
+
+/* Fix Clean Up CSS: Remove Border Hitam */
+.ProseMirror p,
+.ProseMirror div,
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+    border: none !important;
+    outline: none !important;
+}
+
+/* Kembalikan cursor biru standar tanpa kotak */
+.ProseMirror-focused {
+    outline: none !important;
+}
+
+/* --- FORCE FIX NEBULLA EDITOR --- */
+
+/* 1. Hilangkan Border Hitam di Semua Elemen Editor */
+.ProseMirror p,
+.ProseMirror div,
+.ProseMirror span,
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror blockquote,
+.ProseMirror pre {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* 2. Kembalikan Kursor Kedip (PENTING) */
+.ProseMirror {
+    caret-color: black !important;
+    /* Paksa kursor berwarna hitam */
+}
+
+/* 3. Pastikan Fokus tidak membuat kotak */
+.ProseMirror:focus,
+.ProseMirror:focus-visible,
+.ProseMirror *:focus {
+    outline: none !important;
+    border: none !important;
+}
+
+/* 4. Hanya tampilkan kotak biru JIKA seleksi drag handle aktif (Fitur Notion kita) */
+.ProseMirror-selectednode {
+    outline: 2px solid #60a5fa !important;
+    /* Biru */
+    background-color: rgba(191, 219, 254, 0.3) !important;
+}
+
+/* ===== Glassmorphism Settings Modal Styles ===== */
+
+/* Custom Range Slider with Heart Thumb */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    background: #ee2b8c;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -10px;
+    box-shadow: 0 0 10px rgba(238, 43, 140, 0.5);
+}
+
+input[type=range]::-moz-range-thumb {
+    height: 24px;
+    width: 24px;
+    background: #ee2b8c;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(238, 43, 140, 0.5);
+    border: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    height: 4px;
+    background: linear-gradient(to right, #ee2b8c 0%, #ee2b8c var(--value, 50%), #e5e7eb var(--value, 50%), #e5e7eb 100%);
+    border-radius: 2px;
+}
+
+input[type=range]::-moz-range-track {
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+}
+
+/* Floating Bubbles Animation */
+.floating-bubble {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Custom Scrollbar for Settings Modal */
+.settings-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.settings-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.settings-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(238, 43, 140, 0.3);
+    border-radius: 4px;
+}
+
+.settings-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(238, 43, 140, 0.5);
+}

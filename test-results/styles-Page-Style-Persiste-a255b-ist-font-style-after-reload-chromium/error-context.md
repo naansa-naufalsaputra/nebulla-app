@@ -1,0 +1,96 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - complementary [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - paragraph [ref=e8]: Workspace
+          - generic [ref=e9] [cursor=pointer]:
+            - heading "Personal Notes" [level=1] [ref=e10]
+            - generic [ref=e11]: unfold_more
+        - navigation [ref=e12]:
+          - button "home Home" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: home
+            - generic [ref=e15]: Home
+          - button "description All Notes" [ref=e17] [cursor=pointer]:
+            - generic [ref=e18]: description
+            - generic [ref=e19]: All Notes
+          - button "star Favorites" [ref=e20] [cursor=pointer]:
+            - generic [ref=e21]: star
+            - generic [ref=e22]: Favorites
+          - button "schedule Recent" [ref=e23] [cursor=pointer]:
+            - generic [ref=e24]: schedule
+            - generic [ref=e25]: Recent
+          - button "dashboard Templates" [ref=e26] [cursor=pointer]:
+            - generic [ref=e27]: dashboard
+            - generic [ref=e28]: Templates
+          - button "delete Trash" [ref=e29] [cursor=pointer]:
+            - generic [ref=e30]: delete
+            - generic [ref=e31]: Trash
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - paragraph [ref=e35]: Folders
+            - button "Create New Folder" [ref=e36] [cursor=pointer]:
+              - generic [ref=e37]: add
+          - navigation
+        - generic [ref=e38]:
+          - paragraph [ref=e40]: Pages
+          - navigation [ref=e41]:
+            - button "Select Untitled Note" [ref=e43]:
+              - button "Expand" [disabled] [ref=e44]: chevron_right
+              - generic [ref=e45]: description
+              - generic [ref=e46]: Untitled Note
+              - generic [ref=e47]:
+                - button "Add child page" [ref=e48] [cursor=pointer]:
+                  - generic [ref=e49]: add
+                - button "Delete Untitled Note" [ref=e50] [cursor=pointer]:
+                  - generic [ref=e51]: delete
+        - generic [ref=e53]:
+          - generic [ref=e54]: folder_open
+          - generic [ref=e55]: All Notes (Root)
+        - status [ref=e56]
+      - button "upload_file Import Note (JSON/MD)" [ref=e58] [cursor=pointer]:
+        - generic [ref=e59]: upload_file
+        - text: Import Note (JSON/MD)
+  - generic [ref=e60]:
+    - banner [ref=e61]:
+      - generic [ref=e62]:
+        - button "Toggle sidebar" [ref=e63] [cursor=pointer]:
+          - generic [ref=e64]: menu
+        - heading "Nebulla" [level=2] [ref=e65]
+        - generic [ref=e66]:
+          - generic [ref=e67]: search
+          - textbox "Search..." [ref=e68]
+          - button "Toggle search filters" [ref=e69] [cursor=pointer]:
+            - generic [ref=e70]: tune
+      - generic [ref=e71]:
+        - button "Save as template" [ref=e72] [cursor=pointer]:
+          - generic [ref=e73]: save_as
+        - button "Export note" [ref=e74] [cursor=pointer]:
+          - generic [ref=e75]: ios_share
+        - generic [ref=e76]:
+          - button "Page style options" [active] [ref=e77] [cursor=pointer]:
+            - generic [ref=e78]: more_horiz
+          - button "Page options" [ref=e80] [cursor=pointer]:
+            - img [ref=e81]
+        - button "Toggle AI sidebar" [ref=e85] [cursor=pointer]:
+          - generic [ref=e86]: auto_awesome
+        - button "Open settings" [ref=e87] [cursor=pointer]:
+          - generic [ref=e88]: settings
+        - button "Sign out" [ref=e89] [cursor=pointer]: A
+    - main [ref=e90]:
+      - generic [ref=e93]:
+        - button "image Add cover" [ref=e95] [cursor=pointer]:
+          - generic [ref=e96]: image
+          - text: Add cover
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - button "add_reaction Add Icon" [ref=e100] [cursor=pointer]:
+              - generic [ref=e101]: add_reaction
+              - text: Add Icon
+            - textbox "Untitled" [ref=e102]: Untitled Note
+          - paragraph [ref=e106]: Press '/' for commands, or start writing...
+    - region "Notifications alt+T"
+```

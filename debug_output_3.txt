@@ -1,0 +1,10 @@
+
+Running 1 test using 1 worker
+
+Terminate batch job (Y/N)? Terminate batch job (Y/N)? [1A[2K[1/1] [chromium] › e2e\styles-mocked.spec.ts:74:5 › Page Style Persistence (Mocked) › should receive font style from API
+[1A[2K  1 did not run
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

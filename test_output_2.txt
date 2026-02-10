@@ -1,0 +1,15 @@
+
+Running 1 test using 1 worker
+
+[1A[2K[1/1] [chromium] › e2e\basic.spec.ts:3:1 › basic test
+[1A[2K[chromium] › e2e\basic.spec.ts:3:1 › basic test
+Running basic test...
+
+[1A[2KNavigated to /
+
+[1A[2K  1 passed (15.8s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

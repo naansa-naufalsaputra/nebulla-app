@@ -1,0 +1,29 @@
+
+Running 2 tests using 2 workers
+
+[1A[2K[1/2] [chromium] › e2e\smoke.spec.ts:25:5 › Smoke Suite › Homepage loads correctly
+[1A[2K[2/2] [chromium] › e2e\smoke.spec.ts:31:5 › Smoke Suite › Create new note flow
+[1A[2K[chromium] › e2e\smoke.spec.ts:31:5 › Smoke Suite › Create new note flow
+Navigating to homepage...
+
+[1A[2K[chromium] › e2e\smoke.spec.ts:25:5 › Smoke Suite › Homepage loads correctly
+Navigating to homepage...
+
+[1A[2K[chromium] › e2e\smoke.spec.ts:31:5 › Smoke Suite › Create new note flow
+Login screen detected. Clicking Guest Login...
+
+[1A[2K[chromium] › e2e\smoke.spec.ts:25:5 › Smoke Suite › Homepage loads correctly
+Login screen detected. Clicking Guest Login...
+
+[1A[2K[chromium] › e2e\smoke.spec.ts:31:5 › Smoke Suite › Create new note flow
+Login successful.
+
+[1A[2K[chromium] › e2e\smoke.spec.ts:25:5 › Smoke Suite › Homepage loads correctly
+Login successful.
+
+[1A[2K  2 passed (5.5s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
