@@ -123,12 +123,12 @@ export const MainContentRouter: React.FC<MainContentRouterProps> = ({
         );
     }
 
-    // 4. Search Results / Filtered Notes Grid
+    // 4. Search Results / Filtered Notes Grid (including 'all')
     return (
         <div className="p-4 md:p-8 overflow-y-auto h-full">
             {/* Header */}
             <h2 className="text-xl font-bold mb-6 text-text-main dark:text-white">
-                {searchQuery ? 'Search Results' : filter}
+                {searchQuery ? 'Search Results' : filter === 'all' ? 'All Notes' : filter}
             </h2>
 
             {/* Notes Grid */}

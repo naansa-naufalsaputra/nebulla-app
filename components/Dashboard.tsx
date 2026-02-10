@@ -29,7 +29,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     };
 
     return (
-        <div className="flex-1 w-full h-full p-8 md:p-12 overflow-y-auto flex flex-col items-center justify-center bg-background-light dark:bg-background-dark relative">
+        <div className="flex-1 w-full h-full pt-4 px-8 md:px-12 pb-8 overflow-y-auto flex flex-col items-center justify-center bg-background-light dark:bg-background-dark relative">
             {/* Background Dot Pattern */}
             <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none dot-grid" style={{ backgroundSize: '32px 32px' }}></div>
 
