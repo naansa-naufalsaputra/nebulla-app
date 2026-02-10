@@ -24,7 +24,6 @@ const App: React.FC = () => {
 
     // --- Auth State ---
     const [session, setSession] = useState<any>(null);
-    const [userProfile] = useState<any>(null);
     const [authLoading, setAuthLoading] = useState(true);
 
     // --- Modal State ---
@@ -276,7 +275,7 @@ const App: React.FC = () => {
                     fontStyle={fontStyle}
                     isFullWidth={isFullWidth}
                     isSmallText={isSmallText}
-                    userProfile={userProfile}
+                    user={session?.user}
                 />
             </main>
 

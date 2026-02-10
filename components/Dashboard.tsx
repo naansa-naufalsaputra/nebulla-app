@@ -1,7 +1,8 @@
 import React from 'react';
+import { User } from '@supabase/supabase-js';
 
 interface DashboardProps {
-    userName: string;
+    user?: User | null;
     onSearchChange: (query: string) => void;
     searchQuery: string;
     onCreateNote: () => void;
@@ -12,7 +13,7 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({
-    userName,
+    user,
     onSearchChange,
     searchQuery,
     onCreateNote,
@@ -40,6 +41,14 @@ const Dashboard: React.FC<DashboardProps> = ({
         return "Good Evening";
     };
 
+    // Greeting Logic
+    const displayName = user?.user_metadata?.full_name ||
+        user?.user_metadata?.name ||
+        user?.email?.split('@')[0] ||
+        'Guest';
+    // Capitalize first letter
+    const finalName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+
     return (
         <div className="flex-1 w-full h-full pt-24 px-8 md:px-12 pb-8 overflow-y-auto flex flex-col items-center justify-start bg-background-light dark:bg-background-dark relative">
             {/* Background Dot Pattern */}
@@ -54,7 +63,7 @@ const Dashboard: React.FC<DashboardProps> = ({
                 <div className="flex flex-col items-center gap-10 w-full">
                     <div className="text-center space-y-3">
                         <h1 className="text-3xl md:text-5xl font-bold text-text-main dark:text-white tracking-tight">
-                            {getGreeting()}, {userName}
+                            {getGreeting()}, {finalName}
                         </h1>
                         <p className="text-lg text-text-secondary dark:text-gray-400">
                             What would you like to capture today?

@@ -2,11 +2,8 @@ import React from 'react';
 import Dashboard from './Dashboard';
 import TiptapEditor from './TiptapEditor';
 import TiptapPreview from './TiptapPreview';
+import { User } from '@supabase/supabase-js';
 import { Note, NoteBlock, SidebarFilter } from '../types';
-
-interface UserProfile {
-    full_name?: string;
-}
 
 interface MainContentRouterProps {
     // State
@@ -42,7 +39,7 @@ interface MainContentRouterProps {
     isSmallText: boolean;
 
     // User
-    userProfile: UserProfile | null;
+    user: User | null;
 }
 
 /**
@@ -70,7 +67,7 @@ export const MainContentRouter: React.FC<MainContentRouterProps> = ({
     fontStyle,
     isFullWidth,
     isSmallText,
-    userProfile
+    user
 }) => {
     // 1. Template Preview Mode
     if (previewData && isTemplateGalleryOpen) {
@@ -111,7 +108,7 @@ export const MainContentRouter: React.FC<MainContentRouterProps> = ({
     if (filter === 'home' && !searchQuery) {
         return (
             <Dashboard
-                userName={userProfile?.full_name || 'User'}
+                user={user}
                 searchQuery={searchQuery}
                 onSearchChange={onSearchChange}
                 onCreateNote={onCreateNote}
